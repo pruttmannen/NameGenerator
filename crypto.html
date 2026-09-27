@@ -389,6 +389,8 @@
     }
 
     // ========== ALL CRYPTO OPTIONS WITH NETWORK INFO ==========
+    // NOTE: each getAmount now references its OWN option key so the live price
+    //       lookup pulls the correct USD value from cryptoPricesUSD.
     const cryptoOptions = {
         solana: {
             name: "Solana",
@@ -396,11 +398,7 @@
             icon: "fab fa-solana",
             color: "#14F195",
             getAddress: (price) => price === 30 ? "F4aPW5dJbnscfo7LwFmRhLQnTp4VWemXTZa5GRFK49A4" : "F4aPW5dJbnscfo7LwFmRhLQnTp4VWemXTZa5GRFK49A4",
-            // Calculate the SOL amount from the live SOL/USD price.
-            getAmount: (price) => {
-                if (!currentSolPrice || !price) return "Loading...";
-                return (price / currentSolPrice).toFixed(6);
-            },
+            getAmount: (price) => getLiveCryptoAmount("solana", price),
             network: "Solana Mainnet",
             networkType: "SPL Token",
             warning: "Send only on Solana network",
@@ -412,7 +410,7 @@
             icon: "fab fa-litecoin-sign",
             color: "#A6A9AA",
             getAddress: (price) => price === 30 ? "ltc1q4rgt70j0xvv6zvdp4jg66rzeu3yx9xe2rrxjpg" : "ltc1q4rgt70j0xvv6zvdp4jg66rzeu3yx9xe2rrxjpg",
-            getAmount: (price) => getLiveCryptoAmount("solana", price),
+            getAmount: (price) => getLiveCryptoAmount("litecoin", price),
             network: "Litecoin",
             networkType: "Native LTC",
             warning: "Send only on Litecoin network",
@@ -424,7 +422,7 @@
             icon: "fab fa-bitcoin",
             color: "#F7931A",
             getAddress: (price) => price === 30 ? "bc1qwwhc0z6mfwrptefxjw33f9n4puqtwzwnxlty4r" : "bc1qwwhc0z6mfwrptefxjw33f9n4puqtwzwnxlty4r",
-            getAmount: (price) => getLiveCryptoAmount("litecoin", price),
+            getAmount: (price) => getLiveCryptoAmount("bitcoin", price),
             network: "Bitcoin",
             networkType: "Native SegWit",
             warning: "Send only on Bitcoin network",
@@ -436,7 +434,7 @@
             icon: "fab fa-ethereum",
             color: "#627EEA",
             getAddress: (price) => price === 30 ? "0xDe44D94573661c5f5FC99e6F56bA4Ab2D8Fc9533" : "0xDe44D94573661c5f5FC99e6F56bA4Ab2D8Fc9533",
-            getAmount: (price) => getLiveCryptoAmount("bitcoin", price),
+            getAmount: (price) => getLiveCryptoAmount("ethereum", price),
             network: "Ethereum",
             networkType: "ERC20",
             warning: "Send only on Ethereum network (ERC20)",
@@ -448,7 +446,7 @@
             icon: "fab fa-tron",
             color: "#FF060A",
             getAddress: (price) => price === 30 ? "TJrhXCL9t4qgqgEEFRyEzEeaHHD7dxVWYL" : "TJrhXCL9t4qgqgEEFRyEzEeaHHD7dxVWYL",
-            getAmount: (price) => getLiveCryptoAmount("ethereum", price),
+            getAmount: (price) => getLiveCryptoAmount("tron", price),
             network: "TRON",
             networkType: "TRC20",
             warning: "Send only on TRON network (TRC20)",
@@ -460,7 +458,7 @@
             icon: "fas fa-dollar-sign",
             color: "#26A17B",
             getAddress: (price) => price === 30 ? "TJrhXCL9t4qgqgEEFRyEzEeaHHD7dxVWYL" : "TJrhXCL9t4qgqgEEFRyEzEeaHHD7dxVWYL",
-            getAmount: (price) => getLiveCryptoAmount("tron", price),
+            getAmount: (price) => getLiveCryptoAmount("usdtTron", price),
             network: "TRON",
             networkType: "TRC20",
             warning: "⚠️ CRITICAL: Send only on TRON network (TRC20 USDT)",
@@ -484,7 +482,7 @@
             icon: "fas fa-dollar-sign",
             color: "#627EEA",
             getAddress: (price) => price === 30 ? "0xDe44D94573661c5f5FC99e6F56bA4Ab2D8Fc9533" : "0xDe44D94573661c5f5FC99e6F56bA4Ab2D8Fc9533",
-            getAmount: (price) => getLiveCryptoAmount("usdtTron", price),
+            getAmount: (price) => getLiveCryptoAmount("usdtEth", price),
             network: "Ethereum",
             networkType: "ERC20",
             warning: "⚠️ CRITICAL: Send only on Ethereum network (ERC20 USDT)",
@@ -532,7 +530,7 @@
             icon: "fas fa-circle-dollar",
             color: "#2775CA",
             getAddress: (price) => price === 30 ? "F4aPW5dJbnscfo7LwFmRhLQnTp4VWemXTZa5GRFK49A4" : "F4aPW5dJbnscfo7LwFmRhLQnTp4VWemXTZa5GRFK49A4",
-            getAmount: (price) => getLiveCryptoAmount("usdtEth", price),
+            getAmount: (price) => getLiveCryptoAmount("usdcSolana", price),
             network: "Solana",
             networkType: "SPL Token",
             warning: "⚠️ CRITICAL: Send only on Solana network (SPL USDC)",
@@ -544,7 +542,7 @@
             icon: "fas fa-circle-dollar",
             color: "#2775CA",
             getAddress: (price) => price === 30 ? "0xDe44D94573661c5f5FC99e6F56bA4Ab2D8Fc9533" : "0xDe44D94573661c5f5FC99e6F56bA4Ab2D8Fc9533",
-            getAmount: (price) => getLiveCryptoAmount("usdcSolana", price),
+            getAmount: (price) => getLiveCryptoAmount("usdcEth", price),
             network: "Ethereum",
             networkType: "ERC20",
             warning: "⚠️ CRITICAL: Send only on Ethereum network (ERC20 USDC)",
@@ -558,12 +556,21 @@
         "doge", "usdcSolana", "usdcEth"
     ];
 
+    // Maps each option key → CoinGecko id used to fetch a live USD price.
     const priceIds = {
-        solana: "solana", litecoin: "litecoin", bitcoin: "bitcoin",
-        ethereum: "ethereum", tron: "tron", xrp: "ripple",
-        ethBase: "ethereum", bnb: "binancecoin", doge: "dogecoin",
-        usdtTron: "tether", usdtEth: "tether",
-        usdcSolana: "usd-coin", usdcEth: "usd-coin"
+        solana: "solana",
+        litecoin: "litecoin",
+        bitcoin: "bitcoin",
+        ethereum: "ethereum",
+        tron: "tron",
+        xrp: "ripple",
+        ethBase: "ethereum",
+        bnb: "binancecoin",
+        doge: "dogecoin",
+        usdtTron: "tether",
+        usdtEth: "tether",
+        usdcSolana: "usd-coin",
+        usdcEth: "usd-coin"
     };
 
     let cryptoPricesUSD = {};
@@ -822,6 +829,9 @@
                 </div>`;
             return;
         }
+
+        // Fetch live prices BEFORE rendering so the first paint shows real amounts.
+        await fetchCryptoPrices();
         renderPaymentInterface();
         
         document.addEventListener('click', function(event) {
