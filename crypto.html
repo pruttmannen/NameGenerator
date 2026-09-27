@@ -396,11 +396,7 @@
             icon: "fab fa-solana",
             color: "#14F195",
             getAddress: (price) => price === 30 ? "F4aPW5dJbnscfo7LwFmRhLQnTp4VWemXTZa5GRFK49A4" : "F4aPW5dJbnscfo7LwFmRhLQnTp4VWemXTZa5GRFK49A4",
-            // Calculate the SOL amount from the live SOL/USD price.
-            getAmount: (price) => {
-                if (!currentSolPrice || !price) return "Loading...";
-                return (price / currentSolPrice).toFixed(6);
-            },
+            getAmount: (price) => price === 30 ? "0.42" : "1.25",
             network: "Solana Mainnet",
             networkType: "SPL Token",
             warning: "Send only on Solana network",
@@ -560,33 +556,6 @@
 
     let currentPrice = null;
     let selectedCryptoKey = "bitcoin";
-    let currentSolPrice = null;
-
-    // Fetch the live SOL/USD price. No API key is required.
-    async function fetchSolPrice() {
-        try {
-            const response = await fetch(
-                "https://api.binance.com/api/v3/ticker/price?symbol=SOLUSDT",
-                { cache: "no-store" }
-            );
-
-            if (!response.ok) throw new Error("SOL price request failed");
-
-            const data = await response.json();
-            const price = Number(data.price);
-
-            if (!Number.isFinite(price) || price <= 0) {
-                throw new Error("Invalid SOL price");
-            }
-
-            currentSolPrice = price;
-            return price;
-        } catch (error) {
-            console.error("Unable to fetch SOL/USD price:", error);
-            currentSolPrice = null;
-            return null;
-        }
-    }
 
     function showErrorToast(customMessage) {
         const toast = document.getElementById('errorToast');
@@ -711,13 +680,8 @@
         const amount = crypto.getAmount(currentPrice);
         
         let qrValue = `${crypto.qrPrefix}${address}`;
-        if (crypto.symbol === 'SOL' && currentSolPrice && amount !== "Loading...") {
-            qrValue = `solana:${address}?amount=${amount}`;
-        } else if (crypto.symbol === 'BTC') {
-            qrValue = `bitcoin:${address}?amount=${amount}`;
-        } else if (crypto.symbol === 'ETH' && crypto.name !== 'ETH (Base)') {
-            qrValue = `ethereum:${address}?value=${amount}`;
-        }
+        if (crypto.symbol === 'BTC') qrValue = `bitcoin:${address}?amount=${amount}`;
+        else if (crypto.symbol === 'ETH' && crypto.name !== 'ETH (Base)') qrValue = `ethereum:${address}?value=${amount}`;
         
         const warningClass = (crypto.warning.includes('CRITICAL') || crypto.symbol === 'USDT' || crypto.symbol === 'USDC') ? 'border-danger bg-danger bg-opacity-10' : 'border-warning bg-warning bg-opacity-10';
 
@@ -734,7 +698,6 @@
                         <i class="fas fa-coins text-warning"></i>
                         <div class="small text-white-50">Amount to send</div>
                         <div class="fw-bold text-warning fs-5">${amount} ${crypto.symbol}</div>
-                        ${crypto.symbol === 'SOL' && currentSolPrice ? `<div class="small text-white-50 mt-1">≈ $${currentPrice.toFixed(2)} USD at $${currentSolPrice.toFixed(2)}/SOL</div>` : ''}
                     </div>
                 </div>
                 <div class="col-6">
@@ -793,17 +756,7 @@
         });
     };
 
-    // Refresh the SOL price every 30 seconds.
-    setInterval(async () => {
-        const previousPrice = currentSolPrice;
-        const newPrice = await fetchSolPrice();
-
-        if (newPrice && newPrice !== previousPrice && selectedCryptoKey === "solana") {
-            renderQRandAddress();
-        }
-    }, 30000);
-
-    document.addEventListener('DOMContentLoaded', async () => {
+    document.addEventListener('DOMContentLoaded', () => {
         currentPrice = getPriceFromURL();
         if(!currentPrice || (currentPrice !== 30 && currentPrice !== 90)) {
             document.getElementById("paymentContent").innerHTML = `
