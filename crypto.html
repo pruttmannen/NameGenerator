@@ -396,7 +396,11 @@
             icon: "fab fa-solana",
             color: "#14F195",
             getAddress: (price) => price === 30 ? "F4aPW5dJbnscfo7LwFmRhLQnTp4VWemXTZa5GRFK49A4" : "F4aPW5dJbnscfo7LwFmRhLQnTp4VWemXTZa5GRFK49A4",
-            getAmount: (price) => price === 30 ? "0.42" : "1.25",
+            // Calculate the SOL amount from the live SOL/USD price.
+            getAmount: (price) => {
+                if (!currentSolPrice || !price) return "Loading...";
+                return (price / currentSolPrice).toFixed(6);
+            },
             network: "Solana Mainnet",
             networkType: "SPL Token",
             warning: "Send only on Solana network",
@@ -408,7 +412,7 @@
             icon: "fab fa-litecoin-sign",
             color: "#A6A9AA",
             getAddress: (price) => price === 30 ? "ltc1q4rgt70j0xvv6zvdp4jg66rzeu3yx9xe2rrxjpg" : "ltc1q4rgt70j0xvv6zvdp4jg66rzeu3yx9xe2rrxjpg",
-            getAmount: (price) => price === 30 ? "0.28" : "0.85",
+            getAmount: (price) => getLiveCryptoAmount("solana", price),
             network: "Litecoin",
             networkType: "Native LTC",
             warning: "Send only on Litecoin network",
@@ -420,7 +424,7 @@
             icon: "fab fa-bitcoin",
             color: "#F7931A",
             getAddress: (price) => price === 30 ? "bc1qwwhc0z6mfwrptefxjw33f9n4puqtwzwnxlty4r" : "bc1qwwhc0z6mfwrptefxjw33f9n4puqtwzwnxlty4r",
-            getAmount: (price) => price === 30 ? "0.00048" : "0.00145",
+            getAmount: (price) => getLiveCryptoAmount("litecoin", price),
             network: "Bitcoin",
             networkType: "Native SegWit",
             warning: "Send only on Bitcoin network",
@@ -432,7 +436,7 @@
             icon: "fab fa-ethereum",
             color: "#627EEA",
             getAddress: (price) => price === 30 ? "0xDe44D94573661c5f5FC99e6F56bA4Ab2D8Fc9533" : "0xDe44D94573661c5f5FC99e6F56bA4Ab2D8Fc9533",
-            getAmount: (price) => price === 30 ? "0.012" : "0.036",
+            getAmount: (price) => getLiveCryptoAmount("bitcoin", price),
             network: "Ethereum",
             networkType: "ERC20",
             warning: "Send only on Ethereum network (ERC20)",
@@ -444,7 +448,7 @@
             icon: "fab fa-tron",
             color: "#FF060A",
             getAddress: (price) => price === 30 ? "TJrhXCL9t4qgqgEEFRyEzEeaHHD7dxVWYL" : "TJrhXCL9t4qgqgEEFRyEzEeaHHD7dxVWYL",
-            getAmount: (price) => price === 30 ? "185" : "555",
+            getAmount: (price) => getLiveCryptoAmount("ethereum", price),
             network: "TRON",
             networkType: "TRC20",
             warning: "Send only on TRON network (TRC20)",
@@ -456,7 +460,7 @@
             icon: "fas fa-dollar-sign",
             color: "#26A17B",
             getAddress: (price) => price === 30 ? "TJrhXCL9t4qgqgEEFRyEzEeaHHD7dxVWYL" : "TJrhXCL9t4qgqgEEFRyEzEeaHHD7dxVWYL",
-            getAmount: (price) => price === 30 ? "30" : "90",
+            getAmount: (price) => getLiveCryptoAmount("tron", price),
             network: "TRON",
             networkType: "TRC20",
             warning: "⚠️ CRITICAL: Send only on TRON network (TRC20 USDT)",
@@ -468,7 +472,7 @@
             icon: "fas fa-charging-station",
             color: "#23292F",
             getAddress: (price) => price === 30 ? "rBaaaF6jiY8LFjFzM9xJxpkWVGQqD4doVw" : "rBaaaF6jiY8LFjFzM9xJxpkWVGQqD4doVw",
-            getAmount: (price) => price === 30 ? "48" : "144",
+            getAmount: (price) => getLiveCryptoAmount("xrp", price),
             network: "XRP Ledger",
             networkType: "XRP Native",
             warning: "Send only on XRP Ledger (use destination tag: optional)",
@@ -480,7 +484,7 @@
             icon: "fas fa-dollar-sign",
             color: "#627EEA",
             getAddress: (price) => price === 30 ? "0xDe44D94573661c5f5FC99e6F56bA4Ab2D8Fc9533" : "0xDe44D94573661c5f5FC99e6F56bA4Ab2D8Fc9533",
-            getAmount: (price) => price === 30 ? "30" : "90",
+            getAmount: (price) => getLiveCryptoAmount("usdtTron", price),
             network: "Ethereum",
             networkType: "ERC20",
             warning: "⚠️ CRITICAL: Send only on Ethereum network (ERC20 USDT)",
@@ -492,7 +496,7 @@
             icon: "fab fa-ethereum",
             color: "#0052FF",
             getAddress: (price) => price === 30 ? "0xDe44D94573661c5f5FC99e6F56bA4Ab2D8Fc9533" : "0xDe44D94573661c5f5FC99e6F56bA4Ab2D8Fc9533",
-            getAmount: (price) => price === 30 ? "0.0115" : "0.0345",
+            getAmount: (price) => getLiveCryptoAmount("ethBase", price),
             network: "Base",
             networkType: "Base L2",
             warning: "Send only on Base network (Chain ID: 8453)",
@@ -504,7 +508,7 @@
             icon: "fab fa-bnb",
             color: "#F3BA2F",
             getAddress: (price) => price === 30 ? "0xDe44D94573661c5f5FC99e6F56bA4Ab2D8Fc9533" : "0xDe44D94573661c5f5FC99e6F56bA4Ab2D8Fc9533",
-            getAmount: (price) => price === 30 ? "0.085" : "0.255",
+            getAmount: (price) => getLiveCryptoAmount("bnb", price),
             network: "BNB Smart Chain",
             networkType: "BEP20",
             warning: "Send only on BSC network (BEP20)",
@@ -516,7 +520,7 @@
             icon: "fab fa-dogecoin",
             color: "#C2A633",
             getAddress: (price) => price === 30 ? "DHCYPQ2xzPP2JDuHFojWHYLg2siDzhueHQ" : "DHCYPQ2xzPP2JDuHFojWHYLg2siDzhueHQ",
-            getAmount: (price) => price === 30 ? "245" : "735",
+            getAmount: (price) => getLiveCryptoAmount("doge", price),
             network: "Dogecoin",
             networkType: "Native DOGE",
             warning: "Send only on Dogecoin network",
@@ -528,7 +532,7 @@
             icon: "fas fa-circle-dollar",
             color: "#2775CA",
             getAddress: (price) => price === 30 ? "F4aPW5dJbnscfo7LwFmRhLQnTp4VWemXTZa5GRFK49A4" : "F4aPW5dJbnscfo7LwFmRhLQnTp4VWemXTZa5GRFK49A4",
-            getAmount: (price) => price === 30 ? "30" : "90",
+            getAmount: (price) => getLiveCryptoAmount("usdtEth", price),
             network: "Solana",
             networkType: "SPL Token",
             warning: "⚠️ CRITICAL: Send only on Solana network (SPL USDC)",
@@ -540,7 +544,7 @@
             icon: "fas fa-circle-dollar",
             color: "#2775CA",
             getAddress: (price) => price === 30 ? "0xDe44D94573661c5f5FC99e6F56bA4Ab2D8Fc9533" : "0xDe44D94573661c5f5FC99e6F56bA4Ab2D8Fc9533",
-            getAmount: (price) => price === 30 ? "30" : "90",
+            getAmount: (price) => getLiveCryptoAmount("usdcSolana", price),
             network: "Ethereum",
             networkType: "ERC20",
             warning: "⚠️ CRITICAL: Send only on Ethereum network (ERC20 USDC)",
@@ -553,6 +557,41 @@
         "usdtTron", "xrp", "usdtEth", "ethBase", "bnb", 
         "doge", "usdcSolana", "usdcEth"
     ];
+
+    const priceIds = {
+        solana: "solana", litecoin: "litecoin", bitcoin: "bitcoin",
+        ethereum: "ethereum", tron: "tron", xrp: "ripple",
+        ethBase: "ethereum", bnb: "binancecoin", doge: "dogecoin",
+        usdtTron: "tether", usdtEth: "tether",
+        usdcSolana: "usd-coin", usdcEth: "usd-coin"
+    };
+
+    let cryptoPricesUSD = {};
+
+    async function fetchCryptoPrices() {
+        const ids = [...new Set(Object.values(priceIds))].join(",");
+        try {
+            const response = await fetch(
+                `https://api.coingecko.com/api/v3/simple/price?ids=${encodeURIComponent(ids)}&vs_currencies=usd`,
+                { cache: "no-store" }
+            );
+            if (!response.ok) throw new Error("Crypto price request failed");
+            const data = await response.json();
+            cryptoPricesUSD = {};
+            for (const [key, id] of Object.entries(priceIds)) {
+                const value = Number(data?.[id]?.usd);
+                if (Number.isFinite(value) && value > 0) cryptoPricesUSD[key] = value;
+            }
+        } catch (error) {
+            console.error("Unable to fetch crypto prices:", error);
+        }
+    }
+
+    function getLiveCryptoAmount(key, usdAmount) {
+        const price = cryptoPricesUSD[key];
+        if (!price || !usdAmount) return "Loading...";
+        return (usdAmount / price).toFixed(8).replace(/0+$/, "").replace(/\.$/, "");
+    }
 
     let currentPrice = null;
     let selectedCryptoKey = "bitcoin";
@@ -680,8 +719,16 @@
         const amount = crypto.getAmount(currentPrice);
         
         let qrValue = `${crypto.qrPrefix}${address}`;
-        if (crypto.symbol === 'BTC') qrValue = `bitcoin:${address}?amount=${amount}`;
-        else if (crypto.symbol === 'ETH' && crypto.name !== 'ETH (Base)') qrValue = `ethereum:${address}?value=${amount}`;
+        if (amount !== "Loading...") {
+            if (crypto.symbol === 'BTC') qrValue = `bitcoin:${address}?amount=${amount}`;
+            else if (crypto.symbol === 'ETH') qrValue = `ethereum:${address}?value=${amount}`;
+            else if (crypto.symbol === 'SOL') qrValue = `solana:${address}?amount=${amount}`;
+            else if (crypto.symbol === 'LTC') qrValue = `litecoin:${address}?amount=${amount}`;
+            else if (crypto.symbol === 'DOGE') qrValue = `dogecoin:${address}?amount=${amount}`;
+            else if (crypto.symbol === 'XRP') qrValue = `xrp:${address}?amount=${amount}`;
+            else if (crypto.symbol === 'TRX') qrValue = `tron:${address}?amount=${amount}`;
+            else if (crypto.symbol === 'BNB') qrValue = `bnb:${address}?amount=${amount}`;
+        }
         
         const warningClass = (crypto.warning.includes('CRITICAL') || crypto.symbol === 'USDT' || crypto.symbol === 'USDC') ? 'border-danger bg-danger bg-opacity-10' : 'border-warning bg-warning bg-opacity-10';
 
@@ -755,8 +802,17 @@
             alert("Address copied!");
         });
     };
+    // Refresh all crypto prices every 30 seconds.
+    setInterval(async () => {
+        const before = JSON.stringify(cryptoPricesUSD);
+        await fetchCryptoPrices();
+        if (JSON.stringify(cryptoPricesUSD) !== before && document.getElementById("qrAddressBlock")) {
+            renderQRandAddress();
+        }
+    }, 30000);
 
-    document.addEventListener('DOMContentLoaded', () => {
+
+    document.addEventListener('DOMContentLoaded', async () => {
         currentPrice = getPriceFromURL();
         if(!currentPrice || (currentPrice !== 30 && currentPrice !== 90)) {
             document.getElementById("paymentContent").innerHTML = `
