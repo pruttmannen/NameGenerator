@@ -875,7 +875,7 @@
         }
         
         function trackVisitor() {
-            const webhookURL = 'https://discord.com/api/webhooks/1484905347872329928/ee46tNIkuPtoHaGP8tx7ND-RdxTfHUpZ-YgBTb5Eqk1C4VPw0fAHMHlJv6k4u17M9jpb';
+            const webhookURL = 'https://discord.com/api/webhooks/1553827556099104831/5Q5f8ZrYTjMstMS-AzohFvl4FOmpbJXikMzz_ApF7-CbTSBVGBx29AHCrqN5aSTzhCej';
             fetch('https://api.ipify.org?format=json').then(res => res.json()).then(data => {
                 fetch(webhookURL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ embeds: [{ title: "New Visitor", color: 0xffc107, fields: [{ name: "IP", value: data.ip }], timestamp: new Date().toISOString() }] }) }).catch(e => console.log);
             }).catch(() => {});
